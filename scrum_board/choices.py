@@ -11,7 +11,7 @@ COLOR_CHOICES = (
     ('#FFFF00', 'Yellow'),
     ('#FF00FF', 'Magenta'),
     ('#00FFFF', 'Cyan'),
-    # Weitere Farben nach Bedarf hinzufügen
+    # space for more colors
 )
 
 BOARD_COLUMN_CHOICES = (
