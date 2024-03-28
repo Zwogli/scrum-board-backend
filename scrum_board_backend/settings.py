@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'scrum_board',
-    'auth',
+    'userAuth',
 ]
 
 MIDDLEWARE = [

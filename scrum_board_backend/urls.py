@@ -19,8 +19,8 @@ from django.urls import path
 from django.views.generic import RedirectView
 
 
-from auth.views import LoginView
 from scrum_board.views import TaskView
+from userAuth.views import LoginView
 
 urlpatterns = [
     path('', RedirectView.as_view(url='/login/')),
