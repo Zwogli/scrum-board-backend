@@ -2,6 +2,9 @@ from django.shortcuts import render
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
 class LoginView(ObtainAuthToken):
@@ -18,5 +21,9 @@ class LoginView(ObtainAuthToken):
         })
         
 
-class LogoutView():
-  pass
+class LogoutView(APIView):
+  permission_classes = (IsAuthenticated,)
+  
+  def post(self, request):
+    request.user.auth_token.delete()
+    return Response({"message": "Logout successful"}, status=status.HTTP_200_OK)
