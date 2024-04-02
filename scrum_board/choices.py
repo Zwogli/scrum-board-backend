@@ -5,12 +5,11 @@ PRIORITY_CHOICES = (
 )
 
 COLOR_CHOICES = (
-    ('#FF0000', 'Red'),
-    ('#00FF00', 'Green'),
-    ('#0000FF', 'Blue'),
-    ('#FFFF00', 'Yellow'),
-    ('#FF00FF', 'Magenta'),
-    ('#00FFFF', 'Cyan'),
+    ('red', 'Red'),
+    ('green', 'Green'),
+    ('blue', 'Blue'),
+    ('yellow', 'Yellow'),
+    ('cyan', 'Cyan'),
     # space for more colors
 )
 

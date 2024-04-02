@@ -23,7 +23,7 @@ class Task(models.Model):
     due_date = models.DateField()
     
     priority = models.CharField(max_length=7, choices=choices.PRIORITY_CHOICES, default='low')
-    color = models.CharField(max_length=7, choices=choices.COLOR_CHOICES, default='#FF0000')
+    color = models.CharField(max_length=23, choices=choices.COLOR_CHOICES, default='#FF0000')
     board_column = models.CharField(max_length=21, choices=choices.BOARD_COLUMN_CHOICES, default='board-column-todo')
     
     def clean(self):
