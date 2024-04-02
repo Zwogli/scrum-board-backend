@@ -20,11 +20,12 @@ from django.views.generic import RedirectView
 
 
 from scrum_board.views import TaskView
-from userAuth.views import LoginView
+from userAuth.views import LoginView, LogoutView
 
 urlpatterns = [
     path('', RedirectView.as_view(url='/login/')),
     path('admin/', admin.site.urls),
     path('login/', LoginView.as_view()),
+    path('logout/', LogoutView.as_view()),
     path('tasks/', TaskView.as_view()),
 ]
