@@ -21,6 +21,7 @@ class TaskView(APIView):
         return Response(serializer.data)
     
     def post(self, request, format=None):
+        print(request.POST)
         serializer = TaskSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
