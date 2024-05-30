@@ -13,7 +13,7 @@ def is_due_date_into_future(due_date):
 class Task(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=100)
-    description= models.TextField(max_length=250)
+    description= models.TextField(max_length=250, blank=True)
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
