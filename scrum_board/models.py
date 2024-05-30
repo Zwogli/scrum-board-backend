@@ -19,6 +19,8 @@ class Task(models.Model):
         on_delete=models.CASCADE,
     )
     
+    # author = models.CharField(max_length=150)  # Change to CharField to store the username
+    
     created_at = models.DateField(default=datetime.date.today)
     due_date = models.DateField()
     

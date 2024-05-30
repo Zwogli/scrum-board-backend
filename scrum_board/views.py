@@ -21,9 +21,15 @@ class TaskView(APIView):
         return Response(serializer.data)
     
     def post(self, request, format=None):
-        print(request.POST)
-        serializer = TaskSerializer(data=request.data)
+        data = request.data.copy()  # Create a mutable copy of the data
+        # data['author'] = request.user.username  # Store the username in the author field
+        
+        print('Modified data: ', data)
+        
+        serializer = TaskSerializer(data=data)
         if serializer.is_valid():
-            serializer.save()
+            # serializer.save()
+            serializer.save(author=request.user)
+            print('Serialized data: ', serializer.data)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
