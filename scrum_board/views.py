@@ -22,9 +22,9 @@ class TaskView(APIView):
     
     def post(self, request, format=None):
         data = request.data.copy()  # Create a mutable copy of the data
-        # data['author'] = request.user.username  # Store the username in the author field
+        data['author_username'] = request.user.username
         
-        print('Modified data: ', data)
+        print('Modified data: ', data, 'Userobject: ', request.user.username)
         
         serializer = TaskSerializer(data=data)
         if serializer.is_valid():

@@ -18,6 +18,7 @@ class Task(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
     )
+    author_username = models.CharField(blank=True, max_length=150)
     
     # author = models.CharField(max_length=150)  # Change to CharField to store the username
     
