@@ -1,43 +1,18 @@
 import json
-from channels.generic.websocket import AsyncWebsocketConsumer
+from channels.generic.websocket import WebsocketConsumer
 
-class YourConsumer(AsyncWebsocketConsumer):
-    async def connect(self):
-        self.room_name = 'some_room'
-        self.room_group_name = 'group_%s' % self.room_name
+class TaskConsumer(WebsocketConsumer):
+    def connect(self):
+        self.accept()
 
-        # Join room group
-        await self.channel_layer.group_add(
-            self.room_group_name,
-            self.channel_name
-        )
+    def disconnect(self, close_code):
+        pass
 
-        await self.accept()
+    def receive(self, text_data):
+        text_data_json = json.loads(text_data)
+        message = text_data_json['message']
 
-    async def disconnect(self, close_code):
-        # Leave room group
-        await self.channel_layer.group_discard(
-            self.room_group_name,
-            self.channel_name
-        )
-
-    async def receive(self, text_data):
-        data = json.loads(text_data)
-        message = data['message']
-
-        # Send message to room group
-        await self.channel_layer.group_send(
-            self.room_group_name,
-            {
-                'type': 'chat_message',
-                'message': message
-            }
-        )
-
-    async def chat_message(self, event):
-        message = event['message']
-
-        # Send message to WebSocket
-        await self.send(text_data=json.dumps({
+        # Hier kannst du die empfangene Nachricht verarbeiten und auf andere Clients senden
+        self.send(text_data=json.dumps({
             'message': message
         }))
