@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'scrum_board',
     'userAuth',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -146,4 +147,18 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ]
+}
+
+# WebSocket
+
+ASGI_APPLICATION = 'scrum_board_backend.asgi.application'
+
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
 }
