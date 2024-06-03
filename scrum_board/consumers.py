@@ -9,10 +9,10 @@ class TaskConsumer(WebsocketConsumer):
         pass
 
     def receive(self, text_data):
-        text_data_json = json.loads(text_data)
-        message = text_data_json['message']
-
-        # Hier kannst du die empfangene Nachricht verarbeiten und auf andere Clients senden
+        pass
+    
+    def inform_clients(self, event):
+        # Send a message to the WebSocket
         self.send(text_data=json.dumps({
-            'message': message
+            'message': event['message']
         }))

@@ -9,6 +9,9 @@ from rest_framework.permissions import IsAuthenticated
 from .models import Task
 from .serializers import TaskSerializer
 
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
+
 
 # Create your views here.
 class TaskView(APIView):
@@ -26,9 +29,18 @@ class TaskView(APIView):
         serializer = TaskSerializer(data=data)
         
         if serializer.is_valid():
-            # serializer.save()
             serializer.save(author=request.user)
             print('Serialized data: ', serializer.data)
+            
+            # Nachricht über den WebSocket senden
+            channel_layer = get_channel_layer()
+            async_to_sync(channel_layer.group_send)(
+                'group_some_room',  
+                {
+                    'type': 'inform_clients',
+                    'message': 'Form data saved'
+                }
+            )
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
