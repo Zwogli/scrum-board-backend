@@ -153,13 +153,3 @@ REST_FRAMEWORK = {
 # WebSocket
 
 ASGI_APPLICATION = 'scrum_board_backend.asgi.application'
-
-
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
-        },
-    },
-}
