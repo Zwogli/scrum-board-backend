@@ -153,3 +153,10 @@ REST_FRAMEWORK = {
 # WebSocket
 
 ASGI_APPLICATION = 'scrum_board_backend.asgi.application'
+
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
+}
