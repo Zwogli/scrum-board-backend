@@ -35,10 +35,10 @@ class TaskView(APIView):
             # Nachricht über den WebSocket senden
             channel_layer = get_channel_layer()
             async_to_sync(channel_layer.group_send)(
-                'tasks',  
+                'tasks',
                 {
                     'type': 'task_update',
-                    'message': 'Form data saved'
+                    'task': serializer.data
                 }
             )
             return Response(serializer.data, status=status.HTTP_201_CREATED)
