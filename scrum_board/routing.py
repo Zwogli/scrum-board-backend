@@ -1,6 +1,6 @@
-from django.urls import re_path
-from .consumers import TaskConsumer
+from django.urls import path
+from scrum_board import consumers
 
 websocket_urlpatterns = [
-    re_path(r'ws/task/$', TaskConsumer.as_asgi()),
+    path(r'ws/task/$', consumers.TaskConsumer.as_asgi()),
 ]
