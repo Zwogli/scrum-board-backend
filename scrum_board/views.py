@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -18,10 +18,12 @@ class TaskView(APIView):
     authentication_classes = [TokenAuthentication]  # Token must available
     permission_classes = [IsAuthenticated]          # User must loged in
     
+    
     def get(self, request, format=None):
         tasks = Task.objects
         serializer = TaskSerializer(tasks, many=True)
         return Response(serializer.data)
+    
     
     def post(self, request, format=None):
         data = request.data.copy()  # Create a mutable copy of the data
@@ -42,5 +44,21 @@ class TaskView(APIView):
                 }
             )
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    
+    def delete(self, request, pk, format=None):
+        task = get_object_or_404(Task, pk=pk)
+        task.delete()
+        
+        # Nachricht über den WebSocket senden
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)(
+            'tasks',
+            {
+                'type': 'task_delete',
+                'task_id': pk
+            }
+        )
+        
+        return Response(status=status.HTTP_204_NO_CONTENT)

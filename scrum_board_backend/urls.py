@@ -28,4 +28,5 @@ urlpatterns = [
     path('login/', LoginView.as_view()),
     path('logout/', LogoutView.as_view()),
     path('tasks/', TaskView.as_view()),
+    path('tasks/<int:pk>/', TaskView.as_view()),
 ]

@@ -33,9 +33,17 @@ class TaskConsumer(AsyncWebsocketConsumer):
         )
 
 
-    async def task_update(self, event):
-        task = event['task']
-
-        await self.send(text_data=json.dumps({
-            'task': task
+    def task_update(self, event):
+        # Handle task update
+        self.send(text_data=json.dumps({
+            'type': 'task_update',
+            'task': event['task']
+        }))
+        
+        
+    def task_delete(self, event):
+        # Handle task delete
+        self.send(text_data=json.dumps({
+            'type': 'task_delete',
+            'task_id': event['task_id']
         }))
