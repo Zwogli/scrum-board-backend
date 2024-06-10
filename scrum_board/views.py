@@ -47,6 +47,27 @@ class TaskView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     
+    def put(self, request, pk, format=None):
+        task = get_object_or_404(Task, pk=pk)
+        serializer = TaskSerializer(task, data=request.data, partial=True)
+        
+        if serializer.is_valid():
+            serializer.save()
+            
+            # Nachricht über den WebSocket senden
+            channel_layer = get_channel_layer()
+            async_to_sync(channel_layer.group_send)(
+                'tasks',
+                {
+                    'type': 'task_update',
+                    'task': serializer.data
+                }
+            )
+            
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    
     def delete(self, request, pk, format=None):
         task = get_object_or_404(Task, pk=pk)
         task.delete()
