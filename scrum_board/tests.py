@@ -35,9 +35,15 @@ class ScrumBoardTest(BaseTestSetup):
     
     
     def test_delete_scrumboard(self):
-        test_task = dict(self.TEST_TASK_DATA)
-        self.assertTrue(Task.objects.filter(id=test_task.id).exists())
-        response = self.client.delete(f'/tasks/{test_task.id}/')
+        task_data = dict(self.TEST_TASK_DATA)
+        task_data['author'] = self.user
+        task = Task.objects.create(**task_data)
         
+        # Check task created
+        self.assertTrue(Task.objects.filter(id=task.id).exists())
+        # Delete the task
+        response = self.client.delete(f'/tasks/{task.id}/')
+        
+        # Check if the task is deleted successfully
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertFalse(Task.objects.filter(id=test_task.id).exists())
+        self.assertFalse(Task.objects.filter(id=task.id).exists())
