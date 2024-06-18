@@ -1,6 +1,7 @@
 from django.test import TestCase
 from common_tests.base_tests import BaseTestSetup
 from scrum_board.models import Task
+from rest_framework import status
 
 # Create your tests here.
 class ScrumBoardTest(BaseTestSetup):
@@ -8,7 +9,8 @@ class ScrumBoardTest(BaseTestSetup):
         # self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token.key)
         response =self.client.get('/tasks/')
         self.assertEqual(response.status_code, 200)
-        
+    
+    
     def test_post_scrumboard(self):
         task_data = dict(self.TEST_TASK_DATA)
         task_data.pop('author', None)
@@ -30,3 +32,12 @@ class ScrumBoardTest(BaseTestSetup):
         
         # Check database correct created
         self.assertTrue(Task.objects.filter(title='Test').exists())
+    
+    
+    def test_delete_scrumboard(self):
+        test_task = dict(self.TEST_TASK_DATA)
+        self.assertTrue(Task.objects.filter(id=test_task.id).exists())
+        response = self.client.delete(f'/tasks/{test_task.id}/')
+        
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertFalse(Task.objects.filter(id=test_task.id).exists())
